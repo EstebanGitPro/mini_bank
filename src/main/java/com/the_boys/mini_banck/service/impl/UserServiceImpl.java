@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserRequestDTO getUserById(Long id) {
+    public UserResponseDTO getUserById(Long id) {
         Users users = usersRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with", "id", id)
         );

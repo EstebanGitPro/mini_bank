@@ -5,7 +5,7 @@ import com.the_boys.mini_banck.dto.UserResponseDTO;
 
 public interface UserService {
     UserResponseDTO createUser(UserRequestDTO userRequest);
-    UserRequestDTO getUserById(Long id);
+    UserResponseDTO getUserById(Long id);
     void  updateUser(UserRequestDTO userRequest);
     void deleteUser(Long id);
 

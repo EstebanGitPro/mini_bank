@@ -60,6 +60,22 @@ public class GlobalControllerAdvice {
         return problemDetail;
     }
 
+    @ExceptionHandler(BusinessRuleException.class)
+    public ProblemDetail handleBusinessRule(BusinessRuleException ex, WebRequest request) {
+        String traceId = newTraceId();
+
+        log.warn("[{}] Regla de negocio violada - Path: {} , Message: {}",
+                traceId, request.getDescription(false), ex.getMessage());
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
+        problemDetail.setTitle("Regla de negocio violada");
+        problemDetail.setType(URI.create("https://api.ecommerce.com/errors/business-rule"));
+        problemDetail.setProperty("Timestamp", Instant.now());
+        problemDetail.setProperty(TRACE_ID, traceId);
+
+        return problemDetail;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String traceId = newTraceId();
