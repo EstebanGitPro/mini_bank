@@ -1,9 +1,6 @@
 package com.the_boys.mini_banck.dto;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,11 +8,11 @@ import java.math.BigDecimal;
 @Data
 public class TransferRequestDTO {
 
-    @NotNull(message = "Source account id is required")
-    private Long accountId;
+    @NotBlank(message = "Source account number is required")
+    private String accountNumber;
 
-    @NotNull(message = "Destination account id is required")
-    private Long destinationAccountId;
+    @NotBlank(message = "Destination account number is required")
+    private String destinationAccountNumber;
 
     @NotNull(message = "Amount is required")
     @Positive(message = "Amount must be greater than zero")
