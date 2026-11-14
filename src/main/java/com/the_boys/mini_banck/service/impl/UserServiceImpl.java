@@ -9,8 +9,7 @@ import com.the_boys.mini_banck.repository.UsersRepository;
 import com.the_boys.mini_banck.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.control.MappingControl;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +20,13 @@ public class UserServiceImpl implements UserService {
 
     private final UsersRepository usersRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponseDTO createUser(UserRequestDTO userRequest) {
-        return null;
+    public UserResponseDTO createUser(UserRequestDTO request) {
+        Users user = userMapper.toEntity(request);
+        user.setPassword( passwordEncoder.encode(user.getPassword()));
+        return userMapper.toResponse(usersRepository.save(user));
     }
 
     @Override
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
         Users users = usersRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User with", "id", id)
         );
-        return userMapper.toUser(users);
+        return userMapper.toResponse(users);
     }
 
     @Override
