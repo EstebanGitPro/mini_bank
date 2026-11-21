@@ -29,4 +29,11 @@ public class AccountController {
         CreateAccountResponseDTO response = accountService.getAccountById(id);
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(
+            @PathVariable Long id) {
+        accountService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
+    }
 }
