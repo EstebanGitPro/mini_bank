@@ -22,4 +22,11 @@ public class AccountController {
         CreateAccountResponseDTO response = accountService.createAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CreateAccountResponseDTO> getAccount(
+            @PathVariable Long id) {
+        CreateAccountResponseDTO response = accountService.getAccountById(id);
+        return ResponseEntity.ok(response);
+    }
 }
